@@ -6,6 +6,10 @@ import (
 	"github.com/gocolly/colly"
 )
 
+type scrapedData struct {
+	content string
+}
+
 // main() contains code adapted from example found in Colly's docs:
 // http://go-colly.org/docs/examples/basic/
 func main() {
@@ -13,11 +17,11 @@ func main() {
 	c := colly.NewCollector()
 
 	// On every a element which has href attribute call callback
-	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
-                link := e.Attr("href")
+	c.OnHTML("#mp-tfa > p", func(e *colly.HTMLElement) {
 
 		// Print link
-                fmt.Printf("Link found: %q -> %s\n", e.Text, link)
+		data := scrapedData{content: e.Text}
+		fmt.Println(data)
 	})
 
 	// Before making a request print "Visiting ..."
@@ -26,5 +30,6 @@ func main() {
 	})
 
 	// Start scraping on https://hackerspaces.org
-	c.Visit("https://hackerspaces.org/")
+	c.Visit("https://en.wikipedia.org/wiki/Main_Page")
+
 }
