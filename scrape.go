@@ -36,6 +36,7 @@ func main() {
 
 	var r []string
 	// On every a element which has href attribute call callback
+	// wikipedia new featured article selector
 	c.OnHTML("#mp-tfa > p", func(e *colly.HTMLElement) {
 
 		// Print link
@@ -43,12 +44,12 @@ func main() {
 		data1 := scrapedData{Content: r}
 		fmt.Println(data1)
 
-		// scrapedJSON1, _ := json.Marshal(data)
+		// scrapedJSON, _ := json.Marshal(data1)
 		scrapedJSON, _ := json.MarshalIndent(data1, "", "    ")
 		fmt.Println(string(scrapedJSON))
 
 	})
-
+	// wikipedia Recent News
 	c.OnHTML("#mp-itn", func(e *colly.HTMLElement) {
 
 		// Print link
@@ -56,11 +57,11 @@ func main() {
 		data2 := scrapedData{Content: r}
 		fmt.Println(data2)
 
-		// scrapedJSON2, _ := json.Marshal(data)
-		scrapedJSON2, _ := json.MarshalIndent(data2, "", "    ")
-		fmt.Println(string(scrapedJSON2))
+		// scrapedJSON2, _ := json.Marshal(data2)
+		scrapedJSON, _ := json.MarshalIndent(data2, "", "    ")
+		fmt.Println(string(scrapedJSON))
 
-		writeFile(arg, string(scrapedJSON2))
+		writeFile(arg, string(scrapedJSON))
 	})
 
 	// Before making a request print "Visiting ..."
