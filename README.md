@@ -54,9 +54,11 @@ _Complete each task in the order they appear. Use [GitHub Task List](https://hel
 #### Serializing & Saving
 
 - [x] Serialize the `struct` you created to JSON. Print the JSON to `stdout` to validate it.
-- [ALMOST] Write scraped data to a file named `output.json`.
+- [x] Write scraped data to a file named `output.json`.
 Second WriteFile() overwrites the contents from the first one
-- [ ] **Add, commit, and push to GitHub**.
+[FIXED] by creating a variable which is a slice, and then appending e.Text into the slice each time I scrape
+new data!
+- [x] **Add, commit, and push to GitHub**.
 
 ##### Stretch Challenges
 
