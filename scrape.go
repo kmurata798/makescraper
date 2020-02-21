@@ -144,3 +144,7 @@ func main() {
 	startServer(dataSlice)
 
 }
+
+// How to run program:
+// $ go build
+// $ ./makescraper output.json
