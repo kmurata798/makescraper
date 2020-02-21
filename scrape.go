@@ -33,18 +33,6 @@ func writeFile(name string, data string) {
 // main() contains code adapted from example found in Colly's docs:
 // http://go-colly.org/docs/examples/basic/
 
-func readFile(name string) string {
-	/*
-		Collects data from file
-	*/
-	fileContents, err := ioutil.ReadFile(name)
-	if err != nil {
-		panic(err)
-	}
-	return string(fileContents)
-
-}
-
 // Function that runs the Echo server
 func startServer(dataSlice []string) {
 	e := echo.New()
