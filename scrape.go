@@ -8,11 +8,14 @@ import (
 	"os"
 
 	"github.com/gocolly/colly"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/labstack/echo"
 )
 
 // Struct that can be used for json
 type scrapedData struct {
+	gorm.Model
 	Content []string `json:"content"`
 }
 
@@ -55,13 +58,50 @@ func startServer(dataSlice []string) {
 }
 
 func main() {
+	// Gorm Attempt --> error in the console:
+	// panic: invalid sql type  (slice) for sqlite3
+
+	// goroutine 1 [running]:
+	// github.com/jinzhu/gorm.(*sqlite3).DataTypeOf(0xc00021d620, 0xc000175680, 0xc, 0x4805518)
+	// 		/Users/kento/go/pkg/mod/github.com/jinzhu/gorm@v1.9.12/dialect_sqlite3.go:64 +0x751
+	// github.com/jinzhu/gorm.(*Scope).createTable(0xc000222480, 0xc000200bf0)
+	// 		/Users/kento/go/pkg/mod/github.com/jinzhu/gorm@v1.9.12/scope.go:1169 +0x27c
+	// github.com/jinzhu/gorm.(*Scope).autoMigrate(0xc000222480, 0x46fa300)
+	// 		/Users/kento/go/pkg/mod/github.com/jinzhu/gorm@v1.9.12/scope.go:1265 +0x400
+	// github.com/jinzhu/gorm.(*DB).AutoMigrate(0xc000217790, 0xc000135f40, 0x1, 0x1, 0x1)
+	// 		/Users/kento/go/pkg/mod/github.com/jinzhu/gorm@v1.9.12/main.go:684 +0x96
+	// main.main()
+	// 		/Users/kento/go/src/makescraper/scrape.go:69 +0x15c
+
+	// db, err := gorm.Open("sqlite3", "wiki-article.db")
+	// if err != nil {
+	// 	panic("failed to connect database")
+	// }
+	// defer db.Close()
+
+	// Slice declared to hold the strings I have scraped
+	var dataSlice []string
+
+	// // Migrate the schema
+	// db.AutoMigrate(&scrapedData{})
+
+	// // Create
+	// db.Create(&scrapedData{Content: dataSlice})
+
+	// var dbData scrapedData
+	// db.First(&dbData, 1) // find product with id 1
+	// db.First(&dbData, ) // find product with code l1212
+
+	// // Update - update product's price to 2000
+	// db.Model(&dbData).Update("Price", 2000)
+
+	// // Delete - delete product
+	// db.Delete(&dbData)
+
 	// User input for file I want to write my scraped data (strings) into --> output.json
 	arg := os.Args[1]
 	// Instantiate default collector
 	c := colly.NewCollector()
-
-	// Slice declared to hold the strings I have scraped
-	var dataSlice []string
 
 	// On every a element which has href attribute call callback
 	// wikipedia new featured article selector
