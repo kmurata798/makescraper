@@ -16,10 +16,6 @@ type scrapedData struct {
 	Content []string `json:"content"`
 }
 
-type jsonData struct {
-	message []string `json:"message"`
-}
-
 func writeFile(name string, data string) {
 	/*
 		Writes data onto file
@@ -46,6 +42,7 @@ func readFile(name string) string {
 
 }
 
+// Function that runs the Echo server
 func startServer(dataSlice []string) {
 	e := echo.New()
 
@@ -58,11 +55,14 @@ func startServer(dataSlice []string) {
 }
 
 func main() {
+	// User input for file I want to write my scraped data (strings) into --> output.json
 	arg := os.Args[1]
 	// Instantiate default collector
 	c := colly.NewCollector()
 
+	// Slice declared to hold the strings I have scraped
 	var dataSlice []string
+
 	// On every a element which has href attribute call callback
 	// wikipedia new featured article selector
 	c.OnHTML("#mp-tfa > p", func(e *colly.HTMLElement) {
@@ -100,7 +100,7 @@ func main() {
 	// Start scraping on https://hackerspaces.org
 	c.Visit("https://en.wikipedia.org/wiki/Main_Page")
 
-	// fileContents := readFile(arg)
+	// Starts the server
 	startServer(dataSlice)
 
 }
